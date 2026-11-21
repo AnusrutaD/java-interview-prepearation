@@ -1,55 +1,75 @@
 # Practice code — Streams & Concurrency
 
-Every file here is **self-contained** and was **compiled and run on JDK 17** (outputs below).
+Every file is **self-contained** and **pure Java 8**: compiled with `javac --release 8` and run on JDK 8+, 11 and 17.
 
-## How to run
+## Setup in IntelliJ (once)
+1. **File → Open** the `java-interview-prepearation` folder.
+2. Right-click the **`practice`** folder → **Mark Directory as → Sources Root** (the Streams files use packages like `streams.questions`).
+3. **File → Project Structure → Project**: SDK = **1.8**, Language level = **8**.
+4. Open any file and click the green **Run ▶** arrow next to `main()`.
 
-No build tool needed (JDK 11+ single-file launch):
+## Streams — practise like a test
 
-```bash
-cd practice
-java streams/StreamsPractice.java
-java concurrency/MT14_RoundRobinPrinter.java
+```
+streams/
+├── questions/   ST01 … ST17  ← question written at the top, empty method (TODO), built-in PASS/FAIL tests
+└── solutions/   ST01 … ST17  ← same file with the answer + WHY / TRAPS notes
 ```
 
-Or compile everything: `javac -d out streams/*.java concurrency/*.java`
+**How to practise one question**
+1. Open `streams/questions/ST07_SecondHighestWordLength.java` and read the question in the header comment.
+2. Write your stream inside the method marked `// TODO`. Hints are in the header if you get stuck.
+3. Run it: green **Run ▶** arrow in IntelliJ, or from the `practice/` folder in a terminal:
+   ```bash
+   ./run-streams.sh 07
+   ```
+   Every test prints `PASS` or `FAIL` with the expected vs actual value.
+4. Only then open `streams/solutions/ST07_...java` and compare. Read the **WHY / TRAPS** section.
 
-**Practice tip:** cover the code, solve the question yourself, then run the file and compare.
+**Scoreboard for all 17**
+```bash
+./run-streams.sh             # your progress: "DONE" / "todo" for each question, then "x / 17 solved"
+./run-streams.sh 07          # run just ST07 with full output
+./run-streams.sh solutions   # check the reference answers (17 / 17)
+```
 
----
+**To practise again from scratch:** `git checkout -- streams/questions` resets your answers (commit first if you want to keep them).
 
-## Streams — `streams/StreamsPractice.java` (ST1–ST17 in one file)
+The script compiles with `javac --release 8` when your JDK supports it, so even on Java 21/25 it **rejects Java 9+ APIs** (`List.of`, `var`, records...) exactly like Java 8 would. No Maven needed.
 
-| Q | Question | Expected output |
+| Q | Question | Tests check |
 |---|---|---|
-| ST1 | Count each character in `"abcdabcghsk"` | `{a=2, b=2, c=2, d=1, ...}` |
-| ST2 | Merge `[1,2,3,4]` + `[5,6,7,8]` | `[1..8]` (`Stream.concat` or `flatMap`) |
-| ST3 | Reverse `"Stream"` | `maertS` |
-| ST4 | Remove every `'c'` from `"occurance"` | `ourane` |
-| ST5 | Duplicate characters in `"programming"` | `[r, g, m]` |
-| ST6 | Count each word | `{apple=2, banana=2, orange=1}` |
-| ST7 | Second-highest **distinct** word length | `9` |
-| ST8 | Even integers from mixed strings | `[8, 20]` |
-| ST9 | Names ending / not ending with "lal", null-safe | `[Mohanlal, Jawaharlal]` / `[Ram, Vinitha]` |
-| ST10 | Second-largest number | `15` |
-| ST11 | Unique characters in `"hello world"` | set of chars |
-| ST12 | `List<Employee>` → `Map<id, name>` | `toMap(id, name)` |
-| ST13 | Same, insertion order | 4-arg `toMap(..., (a,b)->a, LinkedHashMap::new)` |
-| ST14 | Vehicle that travelled most in August | `Swift` |
-| ST15 | Duplicated integers | `[2, 3]` |
-| ST16 | `.stream()` on `int[]`? | No → `Arrays.stream(arr)` / `IntStream.of` |
-| ST17 | Name starts with 'A' and city Mumbai/Pune | `Predicate.and(...)` |
+| ST01 | Count each character in `"abcdabcghsk"` | `{a=2, b=2, c=2, d=1, g=1, h=1, s=1, k=1}` |
+| ST02 | Merge `[1,2,3,4]` + `[5,6,7,8]` | `[1..8]` |
+| ST03 | Reverse `"Stream"` | `maertS`, empty string |
+| ST04 | Remove every `'c'` from `"occurance"` | `ourane` |
+| ST05 | Duplicate characters in `"programming"` | `{r, g, m}`, none in `"abc"` |
+| ST06 | Count each word | `{apple=2, banana=2, orange=1}` |
+| ST07 | Second-highest **distinct** word length | `9`, tie case `2` |
+| ST08 | Even integers from mixed strings | `[8, 20]` |
+| ST09 | Names ending / not ending with "lal", null-safe | list contains `null` |
+| ST10 | Second-largest number | `15`, `[20,20,15]` → 15, single element → null |
+| ST11 | Unique characters in `"hello world"` | a) distinct set b) chars appearing exactly once, in order |
+| ST12 | `List<Employee>` → `Map<id, name>` | |
+| ST13 | Same, insertion order | must be a `LinkedHashMap`, keys `[3, 1, 2]` |
+| ST14 | Vehicle that travelled most in August | `Swift`, and no-August case |
+| ST15 | Duplicated integers | `{2, 3}`, none |
+| ST16 | `.stream()` on `int[]`? | sum = 6, boxed list |
+| ST17 | Name starts with 'A' AND city Mumbai/Pune | `[Anusruta, Amit]` (Ravi/Pune and Arjun/Delhi excluded) |
 
 ### The 3 recurring Streams mistakes
-1. `chars()` gives an `IntStream` → use `mapToObj(c -> (char) c)` (or `String.valueOf((char) c)` to get Strings).
-2. After `groupingBy(...)` you get a **Map** → call `.entrySet().stream()` before filtering/sorting entries.
-3. Nothing runs without a **terminal operation** (`collect`, `toList`, `findFirst`, `forEach`, ...).
-
-Traps also shown in the file: `distinct()` before "second highest" (tie test), `substring` on short strings, `null` in the list.
+1. `chars()` gives an `IntStream` → `mapToObj(c -> (char) c)`, or `String.valueOf((char) c)` when you need Strings.
+2. After `groupingBy(...)` you have a **Map** → `.entrySet().stream()` before filtering entries.
+3. Nothing runs without a **terminal operation** (`collect`, `toList`, `findFirst`, ...).
 
 ---
 
 ## Concurrency — `concurrency/`
+
+Run in IntelliJ (green ▶ arrow), or in a terminal from `practice/`:
+```bash
+javac -d out concurrency/MT14_RoundRobinPrinter.java && java -cp out concurrency.MT14_RoundRobinPrinter
+```
 
 | File | Question | What it shows |
 |---|---|---|

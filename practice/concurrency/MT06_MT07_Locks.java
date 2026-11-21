@@ -1,3 +1,5 @@
+package concurrency;
+
 import java.util.concurrent.locks.*;
 
 public class MT06_MT07_Locks {

@@ -1,3 +1,5 @@
+package concurrency;
+
 import java.lang.management.*;
 
 public class MT10_Deadlock {

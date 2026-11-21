@@ -1,3 +1,5 @@
+package concurrency;
+
 public class MT11_Join {
     public static void main(String[] args) throws Exception {
         Thread t2 = new Thread(() -> {
