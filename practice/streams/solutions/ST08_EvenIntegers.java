@@ -10,6 +10,10 @@ import java.util.stream.*;
  * QUESTION:
  * From list = ["one","5","ab12","abc","8","20"], extract only the even integers using the Stream API.
  *
+ * EXAMPLES:
+ *   Input:    ["one", "5", "ab12", "abc", "8", "20"]
+ *   Expected: [8, 20]
+ *
  * WHY / TRAPS:
  *   - Integer.parseInt("ab12") throws NumberFormatException — filter first.
  *   - Negative numbers? use "-?\\d+".

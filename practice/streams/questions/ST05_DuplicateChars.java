@@ -10,6 +10,13 @@ import java.util.stream.*;
  * QUESTION:
  * List every duplicate character in s = "programming".
  *
+ * EXAMPLES:
+ *   Input:    "programming"
+ *   Expected: [r, g, m]   (any order)
+ *
+ *   Input:    "abc"
+ *   Expected: []
+ *
  * HINTS (try without them first):
  *   - groupingBy + counting gives a Map.
  *   - To filter a Map you must stream its entrySet().
@@ -23,7 +30,16 @@ public class ST05_DuplicateChars {
 
     static Set<Character> solve(String s) {
         // TODO: write your Stream API solution here
-        return null;
+        return s.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.groupingBy(
+                        Function.identity(),
+                        Collectors.counting()
+                )).entrySet()
+                .stream()
+                .filter(entry -> entry.getValue() > 1)
+                .map(entry -> entry.getKey())
+                .collect(Collectors.toSet());
     }
 
     public static void main(String[] args) {

@@ -10,6 +10,10 @@ import java.util.stream.*;
  * QUESTION:
  * Delete every occurrence of 'c' from s = "occurance" and print the result.
  *
+ * EXAMPLES:
+ *   Input:    s = "occurance", remove = 'c'
+ *   Expected: "ourane"
+ *
  * WHY / TRAPS:
  *   - joining() only works on Stream<String> — convert with String.valueOf((char) c) first.
  *   - No terminal operation = nothing runs.

@@ -12,6 +12,11 @@ import java.util.stream.*;
  *   a) distinct characters (each char once)
  *   b) characters that appear EXACTLY once, in original order  (interviewers often mean this one - ask!)
  *
+ * EXAMPLES:
+ *   Input:    "hello world"
+ *   Expected: a) {h, e, l, o, ' ', w, r, d}   (any order)
+ *             b) [h, e, ' ', w, r, d]          (in this order)
+ *
  * WHY / TRAPS:
  *   - Ask the interviewer which meaning of 'unique' they want.
  *   - LinkedHashMap::new as the 2nd argument of groupingBy keeps first-seen order.

@@ -10,6 +10,13 @@ import java.util.stream.*;
  * QUESTION:
  * For sentence = "I am working in motivated organization", return the second-highest DISTINCT word length.
  *
+ * EXAMPLES:
+ *   Input:    "I am working in motivated organization"
+ *   Expected: 9    (lengths 1,2,7,2,9,12 -> highest 12, second highest 9)
+ *
+ *   Input:    "aaaa bbbb cc"
+ *   Expected: 2    (4 is a tie, not the second highest)
+ *
  * HINTS (try without them first):
  *   - Map words to their lengths.
  *   - distinct() BEFORE sorting, then skip(1).
@@ -23,7 +30,14 @@ public class ST07_SecondHighestWordLength {
 
     static int solve(String sentence) {
         // TODO: write your Stream API solution here
-        return -1;
+        return Arrays.stream(sentence.trim().split(" "))
+                .map(String::length)
+                .distinct()
+                .sorted(Collections.reverseOrder())
+                .skip(1)
+                .findFirst()
+                .orElse(-1);
+
     }
 
     public static void main(String[] args) {

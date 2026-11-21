@@ -12,6 +12,11 @@ import java.util.stream.*;
  *   a) distinct characters (each char once)
  *   b) characters that appear EXACTLY once, in original order  (interviewers often mean this one - ask!)
  *
+ * EXAMPLES:
+ *   Input:    "hello world"
+ *   Expected: a) {h, e, l, o, ' ', w, r, d}   (any order)
+ *             b) [h, e, ' ', w, r, d]          (in this order)
+ *
  * HINTS (try without them first):
  *   - a) mapToObj + toSet() or distinct().
  *   - b) groupingBy with LinkedHashMap::new keeps order; filter count == 1.
@@ -25,12 +30,24 @@ public class ST11_UniqueChars {
 
     static Set<Character> distinctChars(String input) {
         // TODO: write your Stream API solution here
-        return null;
+        return input.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.toSet());
     }
 
     static List<Character> appearingOnce(String input) {
         // TODO: write your Stream API solution here
-        return null;
+        return input.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.groupingBy(
+                        Function.identity(),
+                        LinkedHashMap::new,
+                        Collectors.counting()
+                )).entrySet()
+                .stream()
+                .filter(entry -> entry.getValue() == 1)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 
     public static void main(String[] args) {

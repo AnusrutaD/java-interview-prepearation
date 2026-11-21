@@ -11,6 +11,14 @@ import java.util.stream.*;
  * Given a vehicle table (id, name, model) and a journey table (vehicleId, dateOfJourney, distanceTravelled),
  * find the NAME of the vehicle that travelled the most (total distance) in August.
  *
+ * EXAMPLES:
+ *   Input:    vehicles: (1, Swift, VXi), (2, City, ZX)
+ *             journeys: (1, 03-Aug, 120 km), (2, 09-Aug, 300 km), (1, 20-Aug, 250 km), (2, 01-Jul, 900 km)
+ *   Expected: "Swift"   (August totals: Swift 120+250 = 370, City 300; City's 900 km was in July)
+ *
+ *   Input:    journeys: only (1, 01-Jul, 10 km)
+ *   Expected: "No vehicles travelled in August"
+ *
  * WHY / TRAPS:
  *   - Sum per vehicle FIRST, then take the max — not the single longest journey.
  *   - Filter the month before grouping. In SQL: WHERE MONTH(date)=8 GROUP BY vehicle_id ORDER BY SUM(distance) DESC LIMIT 1.

@@ -10,6 +10,10 @@ import java.util.stream.*;
  * QUESTION:
  * Merge list1 = [1,2,3,4] and list2 = [5,6,7,8] using the Stream API.
  *
+ * EXAMPLES:
+ *   Input:    list1 = [1, 2, 3, 4], list2 = [5, 6, 7, 8]
+ *   Expected: [1, 2, 3, 4, 5, 6, 7, 8]
+ *
  * HINTS (try without them first):
  *   - Stream has a static method that joins two streams.
  *   - Or: stream of lists + flatMap.
@@ -23,7 +27,8 @@ public class ST02_MergeLists {
 
     static List<Integer> solve(List<Integer> list1, List<Integer> list2) {
         // TODO: write your Stream API solution here
-        return null;
+        return Stream.concat(list1.stream(), list2.stream())
+                .collect(Collectors.toList());
     }
 
     public static void main(String[] args) {

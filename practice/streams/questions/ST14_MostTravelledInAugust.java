@@ -1,6 +1,7 @@
 package streams.questions;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.*;
 import java.util.stream.*;
 
@@ -10,6 +11,14 @@ import java.util.stream.*;
  * QUESTION:
  * Given a vehicle table (id, name, model) and a journey table (vehicleId, dateOfJourney, distanceTravelled),
  * find the NAME of the vehicle that travelled the most (total distance) in August.
+ *
+ * EXAMPLES:
+ *   Input:    vehicles: (1, Swift, VXi), (2, City, ZX)
+ *             journeys: (1, 03-Aug, 120 km), (2, 09-Aug, 300 km), (1, 20-Aug, 250 km), (2, 01-Jul, 900 km)
+ *   Expected: "Swift"   (August totals: Swift 120+250 = 370, City 300; City's 900 km was in July)
+ *
+ *   Input:    journeys: only (1, 01-Jul, 10 km)
+ *   Expected: "No vehicles travelled in August"
  *
  * HINTS (try without them first):
  *   - filter August -> groupingBy vehicleId with summingDouble.
@@ -41,7 +50,21 @@ public class ST14_MostTravelledInAugust {
 
     static String solve(List<Vehicle> vehicles, List<Journey> journeys) {
         // TODO: write your Stream API solution here
-        return null;
+        Map<Integer, String> vehicleMap = vehicles.stream()
+                .collect(Collectors.toMap(
+                        Vehicle::id,
+                        Vehicle::name
+                ));
+
+        return journeys.stream()
+                .filter(j -> j.dateOfJourney().getMonth() == Month.AUGUST)
+                .collect(Collectors.groupingBy(
+                        Journey::vehicleId,
+                        Collectors.summingDouble(Journey::distanceTravelled)
+                )).entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(entry -> vehicleMap.get(entry.getKey()))
+                .orElse("No vehicles travelled in August");
     }
 
     public static void main(String[] args) {

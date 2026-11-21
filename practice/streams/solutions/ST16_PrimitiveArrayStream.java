@@ -11,6 +11,11 @@ import java.util.stream.*;
  * Can you call .stream() directly on an int[] array?  (Answer: NO — arrays have no methods.)
  * Practise: a) sum of int[] with a stream   b) int[] -> List<Integer>
  *
+ * EXAMPLES:
+ *   Input:    int[] arr = {3, 1, 2}
+ *   Expected: a) sum = 6
+ *             b) List<Integer> [3, 1, 2]
+ *
  * WHY / TRAPS:
  *   - Arrays.asList(int[]) gives List<int[]> (one element!), not List<Integer>.
  *   - IntStream has sum(), average(), max() built in; Stream<Integer> needs mapToInt first.

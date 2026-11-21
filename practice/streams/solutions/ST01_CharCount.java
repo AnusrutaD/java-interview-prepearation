@@ -10,6 +10,10 @@ import java.util.stream.*;
  * QUESTION:
  * Print the count of every character in str = "abcdabcghsk" using the Stream API.
  *
+ * EXAMPLES:
+ *   Input:    "abcdabcghsk"
+ *   Expected: {a=2, b=2, c=2, d=1, g=1, h=1, s=1, k=1}   (map order doesn't matter)
+ *
  * WHY / TRAPS:
  *   - mapToObj(c -> (char) c) — without the cast you get Integer keys (97=2, ...).
  *   - counting() returns Long, so the map is Map<Character, Long>.

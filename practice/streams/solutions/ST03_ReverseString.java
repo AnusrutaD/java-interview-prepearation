@@ -10,6 +10,13 @@ import java.util.stream.*;
  * QUESTION:
  * Reverse the string str = "Stream" using the Stream API.
  *
+ * EXAMPLES:
+ *   Input:    "Stream"
+ *   Expected: "maertS"
+ *
+ *   Input:    ""
+ *   Expected: ""
+ *
  * WHY / TRAPS:
  *   - String.valueOf((char) c) — reduce needs Strings to concatenate.
  *   - Other answers: IntStream.range(0, n).map(i -> n - 1 - i) + charAt; or new StringBuilder(str).reverse() (no stream).

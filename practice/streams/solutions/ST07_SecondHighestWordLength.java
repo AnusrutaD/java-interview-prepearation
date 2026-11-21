@@ -10,6 +10,13 @@ import java.util.stream.*;
  * QUESTION:
  * For sentence = "I am working in motivated organization", return the second-highest DISTINCT word length.
  *
+ * EXAMPLES:
+ *   Input:    "I am working in motivated organization"
+ *   Expected: 9    (lengths 1,2,7,2,9,12 -> highest 12, second highest 9)
+ *
+ *   Input:    "aaaa bbbb cc"
+ *   Expected: 2    (4 is a tie, not the second highest)
+ *
  * WHY / TRAPS:
  *   - Without distinct(), 'aaaa bbbb cc' returns 4 (the tie), not 2.
  *   - Second highest = sort descending + skip(1) + findFirst().

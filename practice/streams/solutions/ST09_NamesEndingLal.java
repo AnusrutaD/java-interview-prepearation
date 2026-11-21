@@ -13,6 +13,11 @@ import java.util.stream.*;
  *   b) list names NOT ending with "lal"
  *   c) if null is added to the list, avoid a NullPointerException while still listing names not ending with "lal"
  *
+ * EXAMPLES:
+ *   Input:    ["Ram", "Vinitha", "Mohanlal", "Jawaharlal", null]
+ *   Expected: a) [Mohanlal, Jawaharlal]
+ *             b/c) [Ram, Vinitha]   (no NullPointerException)
+ *
  * WHY / TRAPS:
  *   - Java 9+ List.of(...) throws NPE on null; Arrays.asList accepts null.
  *   - Don't use substring(length-3): it throws on names shorter than 3 chars.

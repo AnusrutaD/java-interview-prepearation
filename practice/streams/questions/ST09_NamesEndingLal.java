@@ -13,6 +13,11 @@ import java.util.stream.*;
  *   b) list names NOT ending with "lal"
  *   c) if null is added to the list, avoid a NullPointerException while still listing names not ending with "lal"
  *
+ * EXAMPLES:
+ *   Input:    ["Ram", "Vinitha", "Mohanlal", "Jawaharlal", null]
+ *   Expected: a) [Mohanlal, Jawaharlal]
+ *             b/c) [Ram, Vinitha]   (no NullPointerException)
+ *
  * HINTS (try without them first):
  *   - endsWith("lal").
  *   - Null check FIRST in the filter (or Objects::nonNull).
@@ -26,12 +31,16 @@ public class ST09_NamesEndingLal {
 
     static List<String> endingWithLal(List<String> names) {
         // TODO: write your Stream API solution here
-        return null;
+        return names.stream()
+                .filter(str -> str != null && str.length() >= 3 && str.endsWith("lal"))
+                .collect(Collectors.toList());
     }
 
     static List<String> notEndingWithLal(List<String> names) {
         // TODO: write your Stream API solution here
-        return null;
+        return names.stream()
+                .filter(str -> str != null && (str.length() < 3 || !str.endsWith("lal")))
+                .collect(Collectors.toList());
     }
 
     public static void main(String[] args) {

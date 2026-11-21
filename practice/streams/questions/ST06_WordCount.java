@@ -10,6 +10,10 @@ import java.util.stream.*;
  * QUESTION:
  * Given words = ["apple","banana","apple","orange","banana"], count how many times each word appears.
  *
+ * EXAMPLES:
+ *   Input:    ["apple", "banana", "apple", "orange", "banana"]
+ *   Expected: {apple=2, banana=2, orange=1}
+ *
  * HINTS (try without them first):
  *   - Same pattern as ST01, but the elements are already Strings.
  *
@@ -22,7 +26,11 @@ public class ST06_WordCount {
 
     static Map<String, Long> solve(List<String> words) {
         // TODO: write your Stream API solution here
-        return null;
+        return words.stream()
+                .collect(Collectors.groupingBy(
+                        Function.identity(),
+                        Collectors.counting()
+                ));
     }
 
     public static void main(String[] args) {

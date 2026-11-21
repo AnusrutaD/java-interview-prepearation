@@ -10,6 +10,13 @@ import java.util.stream.*;
  * QUESTION:
  * List every duplicate character in s = "programming".
  *
+ * EXAMPLES:
+ *   Input:    "programming"
+ *   Expected: [r, g, m]   (any order)
+ *
+ *   Input:    "abc"
+ *   Expected: []
+ *
  * WHY / TRAPS:
  *   - .entrySet().stream() after groupingBy — one of your 3 recurring mistakes.
  *   - Set-based alternative: Set<Character> seen = new HashSet<>(); filter(c -> !seen.add(c)) (stateful lambda, fine in an interview if you say so).

@@ -9,6 +9,10 @@ import java.util.stream.*;
  * QUESTION:
  * Convert a List<Employee> into a Map<empId, empName>, but preserve the insertion order of the list.
  *
+ * EXAMPLES:
+ *   Input:    [Employee(3, "Anusruta", "Pune"), Employee(1, "Ravi", "Delhi"), Employee(2, "Amit", "Mumbai")]
+ *   Expected: {3=Anusruta, 1=Ravi, 2=Amit}   (exactly the list order, a LinkedHashMap)
+ *
  * HINTS (try without them first):
  *   - 4-argument toMap: key, value, MERGE function, MAP SUPPLIER.
  *   - Which Map keeps insertion order?
@@ -30,7 +34,13 @@ public class ST13_ListToMapOrdered {
 
     static Map<Integer, String> solve(List<Employee> emps) {
         // TODO: write your Stream API solution here
-        return null;
+        return emps.stream()
+                .collect(Collectors.toMap(
+                        Employee::empId,
+                        Employee::empName,
+                        (first, second) -> first,
+                        LinkedHashMap::new
+                ));
     }
 
     public static void main(String[] args) {

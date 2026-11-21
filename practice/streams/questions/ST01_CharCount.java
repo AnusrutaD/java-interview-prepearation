@@ -10,6 +10,10 @@ import java.util.stream.*;
  * QUESTION:
  * Print the count of every character in str = "abcdabcghsk" using the Stream API.
  *
+ * EXAMPLES:
+ *   Input:    "abcdabcghsk"
+ *   Expected: {a=2, b=2, c=2, d=1, g=1, h=1, s=1, k=1}   (map order doesn't matter)
+ *
  * HINTS (try without them first):
  *   - chars() gives an IntStream, not Stream<Character>.
  *   - groupingBy + counting().
@@ -23,7 +27,12 @@ public class ST01_CharCount {
 
     static Map<Character, Long> solve(String str) {
         // TODO: write your Stream API solution here
-        return null;
+        return str.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.groupingBy(
+                        Function.identity(),
+                        Collectors.counting()
+                ));
     }
 
     public static void main(String[] args) {

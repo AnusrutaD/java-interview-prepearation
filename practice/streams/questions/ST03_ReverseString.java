@@ -10,6 +10,13 @@ import java.util.stream.*;
  * QUESTION:
  * Reverse the string str = "Stream" using the Stream API.
  *
+ * EXAMPLES:
+ *   Input:    "Stream"
+ *   Expected: "maertS"
+ *
+ *   Input:    ""
+ *   Expected: ""
+ *
  * HINTS (try without them first):
  *   - Turn each char into a String first.
  *   - reduce((a, b) -> b + a) puts each new char in front.
@@ -23,7 +30,10 @@ public class ST03_ReverseString {
 
     static String solve(String str) {
         // TODO: write your Stream API solution here
-        return null;
+        return str.chars()
+                .mapToObj(c -> String.valueOf((char) c))
+                .reduce((first, second) -> second + first)
+                .orElse("");
     }
 
     public static void main(String[] args) {

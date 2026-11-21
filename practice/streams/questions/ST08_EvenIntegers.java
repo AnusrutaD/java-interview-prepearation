@@ -10,6 +10,10 @@ import java.util.stream.*;
  * QUESTION:
  * From list = ["one","5","ab12","abc","8","20"], extract only the even integers using the Stream API.
  *
+ * EXAMPLES:
+ *   Input:    ["one", "5", "ab12", "abc", "8", "20"]
+ *   Expected: [8, 20]
+ *
  * HINTS (try without them first):
  *   - Keep only strings that are fully numeric (regex \\d+).
  *   - Then parse and filter even.
@@ -23,7 +27,11 @@ public class ST08_EvenIntegers {
 
     static List<Integer> solve(List<String> list) {
         // TODO: write your Stream API solution here
-        return null;
+        return list.stream()
+                .filter(s -> s.matches("\\d+"))
+                .map(s -> Integer.parseInt(s))
+                .filter(n -> n % 2 == 0)
+                .collect(Collectors.toList());
     }
 
     public static void main(String[] args) {

@@ -10,6 +10,13 @@ import java.util.stream.*;
  * QUESTION:
  * Return the duplicated integers from nums = [1, 2, 3, 2, 4, 5, 3, 6].
  *
+ * EXAMPLES:
+ *   Input:    [1, 2, 3, 2, 4, 5, 3, 6]
+ *   Expected: [2, 3]   (any order)
+ *
+ *   Input:    [1, 2, 3]
+ *   Expected: []
+ *
  * HINTS (try without them first):
  *   - Same pattern as ST05, with Integers.
  *   - Or a HashSet whose add() returns false for a repeat.

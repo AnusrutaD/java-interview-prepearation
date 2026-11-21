@@ -10,6 +10,13 @@ import java.util.stream.*;
  * QUESTION:
  * Return the duplicated integers from nums = [1, 2, 3, 2, 4, 5, 3, 6].
  *
+ * EXAMPLES:
+ *   Input:    [1, 2, 3, 2, 4, 5, 3, 6]
+ *   Expected: [2, 3]   (any order)
+ *
+ *   Input:    [1, 2, 3]
+ *   Expected: []
+ *
  * WHY / TRAPS:
  *   - Frequency(list, x) inside filter is O(n^2) — avoid.
  *   - The HashSet trick uses a stateful lambda: fine sequentially, not with parallel().

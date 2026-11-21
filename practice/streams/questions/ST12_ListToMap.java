@@ -10,6 +10,10 @@ import java.util.stream.*;
  * QUESTION:
  * Convert a List<Employee> into a Map<empId, empName> using the Stream API.
  *
+ * EXAMPLES:
+ *   Input:    [Employee(3, "Anusruta", "Pune"), Employee(1, "Ravi", "Delhi"), Employee(2, "Amit", "Mumbai")]
+ *   Expected: {1=Ravi, 2=Amit, 3=Anusruta}   (any order)
+ *
  * HINTS (try without them first):
  *   - Collectors.toMap(keyMapper, valueMapper).
  *
@@ -30,7 +34,11 @@ public class ST12_ListToMap {
 
     static Map<Integer, String> solve(List<Employee> emps) {
         // TODO: write your Stream API solution here
-        return null;
+        return emps.stream()
+                .collect(Collectors.toMap(
+                        Employee::empId,
+                        Employee::empName
+                ));
     }
 
     public static void main(String[] args) {

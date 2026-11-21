@@ -10,6 +10,10 @@ import java.util.stream.*;
  * QUESTION:
  * Given words = ["apple","banana","apple","orange","banana"], count how many times each word appears.
  *
+ * EXAMPLES:
+ *   Input:    ["apple", "banana", "apple", "orange", "banana"]
+ *   Expected: {apple=2, banana=2, orange=1}
+ *
  * WHY / TRAPS:
  *   - Want it sorted? groupingBy(Function.identity(), TreeMap::new, Collectors.counting()).
  *   - Want insertion order? LinkedHashMap::new as the map factory.

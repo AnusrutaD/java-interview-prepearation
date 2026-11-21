@@ -10,6 +10,11 @@ import java.util.stream.*;
  * QUESTION:
  * Return names of employees whose name starts with 'A' AND whose city is Mumbai or Pune.
  *
+ * EXAMPLES:
+ *   Input:    [Employee(3, "Anusruta", "Pune"), Employee(1, "Ravi", "Pune"),
+ *             Employee(2, "Amit", "Mumbai"), Employee(4, "Arjun", "Delhi")]
+ *   Expected: [Anusruta, Amit]   (Ravi: not A; Arjun: Delhi)
+ *
  * WHY / TRAPS:
  *   - Without brackets, a && b || c means (a && b) || c — Ravi from Pune would sneak in.
  *   - "Mumbai".equalsIgnoreCase(city) is null-safe; city.equals("Mumbai") is not.

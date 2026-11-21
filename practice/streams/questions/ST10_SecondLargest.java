@@ -10,6 +10,16 @@ import java.util.stream.*;
  * QUESTION:
  * Find the second-largest number in numbers = [10, 5, 15, 20, 8] using the Stream API.
  *
+ * EXAMPLES:
+ *   Input:    [10, 5, 15, 20, 8]
+ *   Expected: 15
+ *
+ *   Input:    [20, 20, 15]
+ *   Expected: 15   (not 20)
+ *
+ *   Input:    [7]
+ *   Expected: null  (no second largest)
+ *
  * HINTS (try without them first):
  *   - distinct, sort descending, skip(1).
  *
@@ -22,7 +32,12 @@ public class ST10_SecondLargest {
 
     static Integer solve(List<Integer> numbers) {
         // TODO: write your Stream API solution here
-        return Integer.MIN_VALUE;
+        return numbers.stream()
+                .distinct()
+                .sorted(Collections.reverseOrder())
+                .skip(1)
+                .findFirst()
+                .orElse(null);
     }
 
     public static void main(String[] args) {

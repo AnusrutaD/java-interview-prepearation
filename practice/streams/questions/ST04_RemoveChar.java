@@ -10,6 +10,10 @@ import java.util.stream.*;
  * QUESTION:
  * Delete every occurrence of 'c' from s = "occurance" and print the result.
  *
+ * EXAMPLES:
+ *   Input:    s = "occurance", remove = 'c'
+ *   Expected: "ourane"
+ *
  * HINTS (try without them first):
  *   - filter on the IntStream before converting.
  *   - Collectors.joining() glues Strings.
@@ -23,7 +27,10 @@ public class ST04_RemoveChar {
 
     static String solve(String s, char remove) {
         // TODO: write your Stream API solution here
-        return null;
+        return s.chars()
+                .filter(c -> c != remove)
+                .mapToObj(c -> String.valueOf((char) c))
+                .collect(Collectors.joining());
     }
 
     public static void main(String[] args) {

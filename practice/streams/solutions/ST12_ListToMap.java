@@ -10,6 +10,10 @@ import java.util.stream.*;
  * QUESTION:
  * Convert a List<Employee> into a Map<empId, empName> using the Stream API.
  *
+ * EXAMPLES:
+ *   Input:    [Employee(3, "Anusruta", "Pune"), Employee(1, "Ravi", "Delhi"), Employee(2, "Amit", "Mumbai")]
+ *   Expected: {1=Ravi, 2=Amit, 3=Anusruta}   (any order)
+ *
  * WHY / TRAPS:
  *   - Duplicate keys -> IllegalStateException. Add a merge function (3rd arg) if ids can repeat.
  *   - Null values -> NullPointerException in toMap.

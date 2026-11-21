@@ -9,6 +9,10 @@ import java.util.stream.*;
  * QUESTION:
  * Convert a List<Employee> into a Map<empId, empName>, but preserve the insertion order of the list.
  *
+ * EXAMPLES:
+ *   Input:    [Employee(3, "Anusruta", "Pune"), Employee(1, "Ravi", "Delhi"), Employee(2, "Amit", "Mumbai")]
+ *   Expected: {3=Anusruta, 1=Ravi, 2=Amit}   (exactly the list order, a LinkedHashMap)
+ *
  * WHY / TRAPS:
  *   - There is no 3-arg toMap(key, value, LinkedHashMap::new) — the 3rd argument is the MERGE function.
  *   - Sorted by key instead? use TreeMap::new.

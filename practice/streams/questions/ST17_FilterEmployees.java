@@ -10,6 +10,11 @@ import java.util.stream.*;
  * QUESTION:
  * Return names of employees whose name starts with 'A' AND whose city is Mumbai or Pune.
  *
+ * EXAMPLES:
+ *   Input:    [Employee(3, "Anusruta", "Pune"), Employee(1, "Ravi", "Pune"),
+ *             Employee(2, "Amit", "Mumbai"), Employee(4, "Arjun", "Delhi")]
+ *   Expected: [Anusruta, Amit]   (Ravi: not A; Arjun: Delhi)
+ *
  * HINTS (try without them first):
  *   - Two Predicates combined with and().
  *   - Brackets matter: A && (Mumbai || Pune).
@@ -31,7 +36,10 @@ public class ST17_FilterEmployees {
 
     static List<String> solve(List<Employee> emps) {
         // TODO: write your Stream API solution here
-        return null;
+        return emps.stream()
+                .filter(emp -> emp!= null && !emp.empName().isEmpty() && emp.empName().startsWith("A") && (emp.city().equals("Mumbai") || emp.city().equals("Pune")))
+                .map(Employee::empName)
+                .collect(Collectors.toList());
     }
 
     public static void main(String[] args) {
