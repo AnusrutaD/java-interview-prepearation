@@ -4,6 +4,18 @@ Nov 14, 2026 · @Anusruta Dutta
 
 One entry per question from the prep sessions: a spoken model answer (about 60–90 seconds), the traps interviewers use, and the keyword line to recall. For last-minute revision, read only the keyword lines; open the full answer only where a line does not trigger the explanation.
 
+## 📚 Notes by topic
+
+| Notes | Covers |
+|---|---|
+| [Java notes](java-notes.md) | Core Java, Streams, Testing, Multithreading & Concurrency |
+| [Spring Boot notes](spring-boot-notes.md) | Spring Boot, Transactions & JPA annotations, Spring Data JPA & Hibernate, Spring Security |
+| [Microservices notes](microservices-notes.md) | Microservices, distributed systems, REST API, deployment |
+| [Practice code](practice/README.md) | Streams questions with PASS/FAIL tests, concurrency programs |
+| [Week 2 plan](plans/week-2-microservices-springboot.md) | Microservices + Spring Boot revision plan (PDF in `plans/`) |
+
+*The full combined Java + Spring Boot notes continue below.*
+
 ## CJ1 — == vs equals() vs hashCode()
 
 **Keywords:** `==` operator: primitives → value, objects → reference · `equals()` = logical equality, default uses `==` · `hashCode()` = bucket index, identity hash (not the address) · equal ⇒ same hash, not the reverse · override both or HashMap breaks

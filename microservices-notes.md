@@ -1,5 +1,7 @@
 # Microservices — Revision Notes (Q&A)
 
+← [Back to README](README.md) · [Java](java-notes.md) · [Spring Boot](spring-boot-notes.md) · [Microservices](microservices-notes.md)
+
 Week 2 prep for the Spring + Microservices mock. One entry per question: **Keywords**, **Model answer**, **Traps**.
 Question IDs match `plans/Week2_Microservices_SpringBoot_Plan.pdf` (MS/DS = question bank, TR/REST/DEP = ProgressTracker).
 
