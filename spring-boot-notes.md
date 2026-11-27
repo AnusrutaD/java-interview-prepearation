@@ -664,12 +664,14 @@ public class Enrollment {
 | `@ManyToMany` | Student – Course | one side with `@JoinTable(student_course)`, other side `mappedBy` | **LAZY** |
 
 ```java
-@Entity class Order {
+@Entity
+class Order {
     @ManyToOne(fetch = FetchType.LAZY)          // override EAGER default
     @JoinColumn(name = "customer_id")
     private Customer customer;                   // OWNER
 }
-@Entity class Customer {
+@Entity 
+class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();   // INVERSE
 
