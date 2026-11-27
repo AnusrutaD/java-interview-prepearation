@@ -658,7 +658,7 @@ public class Enrollment {
 
 **Traps:** the key class is **not** an entity. Missing `equals/hashCode` causes duplicate/missed lookups. With `@IdClass` the field names must match exactly. `@GeneratedValue` is not used on composite key parts.
 
-### SB31 — JPA relationship mappings — 🔴 Weak (owning side / mappedBy / fetch defaults)
+### SB31 — JPA relationship mappings — 🟡 Partial (revision 27 Nov: examples good; owning side / mappedBy / fetch defaults still missing)
 
 **Keywords:** owning side = has the FK (`@JoinColumn`) · inverse side = `mappedBy` · ToOne = EAGER, ToMany = LAZY by default · ManyToOne owns · ManyToMany → `@JoinTable` · sync both sides with helper methods · make everything LAZY
 
@@ -695,6 +695,45 @@ class Customer {
 **Traps:** bidirectional is *not* "recommended for error handling"; it's for navigation, and it costs you keeping both sides in sync. A unidirectional `@OneToMany` without `@JoinColumn` makes Hibernate create an extra join table. Setting only `customer.getOrders().add(o)` without `o.setCustomer(customer)` saves a NULL FK. Bidirectional + `toString()`/Jackson causes infinite recursion (`@JsonIgnore` / DTOs).
 
 **SB31 examples (yours, refined):** OneToOne: Person – Passport / User – Profile (phone number is weak: real users have many phones). ManyToOne: many Users → one joint BankAccount (owner = User, FK `account_id`). OneToMany: Course → Subjects (`mappedBy = "course"` on Course). ManyToMany: Students ↔ Courses via `student_course` join table; if you need `enrolledOn`/`grade`, make it an `Enrollment` entity.
+
+**SB31 revision (27 Nov) — 🟡 Partial**
+- ✅ Four annotations + clean examples (User–Profile, Department–Employee, Student–Course).
+- ❌ Wrong: "no @JoinColumn + bidirectional → third table". Real rule: a **unidirectional `@OneToMany` without `@JoinColumn`** creates a join table. A bidirectional mapping with `mappedBy` does **not**; the FK sits on the many side.
+- ❌ Missing: owning side vs `mappedBy` (the core of the question).
+- ❌ Missing: default fetch types. `@ManyToOne` / `@OneToOne` = EAGER; `@OneToMany` / `@ManyToMany` = LAZY. Best practice: make all LAZY.
+- Say in one line: "Owning side has the FK and controls the update; the inverse side just says `mappedBy`."
+
+**SB31 — 2-minute model answer (revision)**
+
+> JPA has four mappings: `@OneToOne`, `@OneToMany`, `@ManyToOne`, `@ManyToMany`. In a relationship, one side is the **owning side**. It holds the foreign key with `@JoinColumn`, or `@JoinTable` for many-to-many, and Hibernate only looks at that side when writing. The other side is the **inverse** side. It uses `mappedBy` and is just a read-only mirror.
+>
+> For example, `Employee` has `@ManyToOne @JoinColumn(name="department_id") Department department`, and `Department` has `@OneToMany(mappedBy="department") List<Employee> employees`. The foreign key lives in the employee table. `@ManyToOne` is always the owner. I add helper methods like `addEmployee()` to keep both sides in sync.
+>
+> Default fetch: the to-one mappings are EAGER, and the to-many mappings are LAZY. I set everything to LAZY and fetch with `JOIN FETCH` or an entity graph when needed. That avoids loading data I don't need and the N+1 problem.
+>
+> For many-to-many, like Student–Course, I use a `Set` with a join table. If the link needs extra columns, like enrollment date or grade, I make it a separate `Enrollment` entity with two `@ManyToOne` mappings.
+>
+> One trap: a unidirectional `@OneToMany` without `@JoinColumn` creates an unexpected join table.
+
+```java
+@Entity
+class Employee {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    private Department department;      // owning side (has the FK)
+}
+
+@Entity
+class Department {
+    @OneToMany(mappedBy = "department")
+    private List<Employee> employees = new ArrayList<>();   // inverse side
+
+    void addEmployee(Employee e) {
+        employees.add(e);
+        e.setDepartment(this);          // keep both sides in sync
+    }
+}
+```
 
 ### SB32 / TX12 — N+1 select problem — 🟡 Partial (1+N mechanism, detection missing)
 
