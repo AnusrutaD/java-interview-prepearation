@@ -21,7 +21,8 @@ Each entry: **Keywords** → **Model answer** → **Traps**.
 class Emp {
     int id;
     Emp(int id) { this.id = id; }
-    @Override public boolean equals(Object o) { return o instanceof Emp e && e.id == id; }
+    @Override
+    public boolean equals(Object o) { return o instanceof Emp e && e.id == id; }
     // no hashCode() override
 }
 Set<Emp> set = new HashSet<>();
@@ -267,7 +268,8 @@ if (obj instanceof Employee(int id, String name)) { }  // record pattern, Java 2
 ```java
 class Animal { Animal create() { return new Animal(); } }
 class Dog extends Animal {
-    @Override Dog create() { return new Dog(); }   // covariant return
+    @Override
+    Dog create() { return new Dog(); }   // covariant return
 }
 Dog d = new Dog().create();   // no cast
 ```
@@ -371,8 +373,10 @@ index = (n - 1) & hash;   // same as hash % n when n is a power of 2
 ```java
 class BadKey {
     int id;
-    @Override public int hashCode() { return 1; }          // every key → same bucket
-    @Override public boolean equals(Object o) { return o instanceof BadKey b && b.id == id; }
+    @Override
+    public int hashCode() { return 1; }          // every key → same bucket
+    @Override
+    public boolean equals(Object o) { return o instanceof BadKey b && b.id == id; }
 }
 ```
 
@@ -533,12 +537,14 @@ PriorityQueue<Employee> pq = new PriorityQueue<>(Comparator.comparing(Employee::
 **Model answer:** "The `equals()` contract has five rules: reflexive — `x.equals(x)` is true; symmetric — if `x.equals(y)` then `y.equals(x)`; transitive — if x equals y and y equals z, then x equals z; consistent — repeated calls give the same result if nothing changed; and `x.equals(null)` is false. The `hashCode()` contract: it must return the same value while the fields used in equals don't change; equal objects must have equal hash codes; unequal objects may share a hash code, though fewer collisions means better performance. So I override both together, based on the same fields — usually with `Objects.equals` and `Objects.hash`, or a record, which generates both. And I avoid mutable fields in keys: if a key's field changes after insertion, its hash changes and the map can't find it."
 
 ```java
-@Override public boolean equals(Object o) {
+@Override
+public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof Employee e)) return false;
     return id == e.id && Objects.equals(name, e.name);
 }
-@Override public int hashCode() { return Objects.hash(id, name); }   // same fields as equals
+@Override
+public int hashCode() { return Objects.hash(id, name); }   // same fields as equals
 ```
 
 **Trap:** a mutable key whose field changes after `put()` is effectively lost — `get()` looks in the wrong bucket.

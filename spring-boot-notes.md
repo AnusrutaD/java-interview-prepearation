@@ -104,8 +104,11 @@ SB13 / SB36 (what DI is, types of DI) → see CJ32.
 **Model answer:** "If two beans implement the same interface, like CarService and TruckService both implementing VehicleService, Spring can't decide which to inject and startup fails with NoUniqueBeanDefinitionException. @Primary marks one implementation as the default whenever that type is injected. @Qualifier, placed at the injection point with the bean name, selects a specific one and overrides @Primary. When the choice depends on the request, I inject a Map\<String, VehicleService> of all implementations and pick at runtime — the strategy pattern, which is how I'd select a payment processor."
 
 ```java
-@Primary @Service class CarService implements VehicleService {}
-@Service class TruckService implements VehicleService {}
+@Primary
+@Service
+class CarService implements VehicleService {}
+@Service
+class TruckService implements VehicleService {}
 
 @RestController
 class TruckController {
@@ -320,8 +323,12 @@ SPRING_PROFILES_ACTIVE=prod      # environment variable, e.g. in a Kubernetes de
 ```java
 @Configuration
 public class PaymentGatewayConfig {
-    @Bean @Profile("dev")  PaymentGateway mockGateway() { return new MockGateway(); }
-    @Bean @Profile("!dev") PaymentGateway realGateway() { return new CyberSourceGateway(); }
+    @Bean
+    @Profile("dev")
+    PaymentGateway mockGateway() { return new MockGateway(); }
+    @Bean
+    @Profile("!dev")
+    PaymentGateway realGateway() { return new CyberSourceGateway(); }
 }
 ```
 
@@ -359,17 +366,20 @@ spring.datasource.audit.url=jdbc:mysql://host2/audit
     transactionManagerRef = "paymentsTxManager")
 public class PaymentsDbConfig {
 
-    @Bean @Primary
+    @Bean
+    @Primary
     @ConfigurationProperties("spring.datasource.payments")
     public DataSource paymentsDataSource() { return DataSourceBuilder.create().build(); }
 
-    @Bean @Primary
+    @Bean
+    @Primary
     public LocalContainerEntityManagerFactoryBean paymentsEntityManager(
             EntityManagerFactoryBuilder builder, @Qualifier("paymentsDataSource") DataSource ds) {
         return builder.dataSource(ds).packages("com.app.payments.entity").build();
     }
 
-    @Bean @Primary
+    @Bean
+    @Primary
     public PlatformTransactionManager paymentsTxManager(
             @Qualifier("paymentsEntityManager") EntityManagerFactory emf) {
         return new JpaTransactionManager(emf);
@@ -722,7 +732,8 @@ select * from address where student_id = 2;
 
 ```java
 // Producer
-@Service @RequiredArgsConstructor
+@Service
+@RequiredArgsConstructor
 class PaymentEventProducer {
     private final KafkaTemplate<String, PaymentEvent> kafka;
     void publish(PaymentEvent e) {
@@ -798,7 +809,8 @@ Optional<Account> findForUpdate(Long id);
 **Model answer:** `@Async` makes Spring run the method on a **different thread** from a `TaskExecutor`, so the caller returns immediately. Enable with `@EnableAsync` on a config class. Return type: `void` (fire-and-forget) or `CompletableFuture<T>` (caller can join/combine results).
 
 ```java
-@Configuration @EnableAsync
+@Configuration
+@EnableAsync
 class AsyncConfig {
     @Bean(name = "ioExecutor")
     Executor ioExecutor() {
@@ -841,7 +853,9 @@ CompletableFuture.allOf(a, b).join();
        uniqueConstraints = @UniqueConstraint(columnNames = {"email"}),
        indexes = @Index(name = "idx_customer_city", columnList = "city"))
 public class Customer {
-    @Id @GeneratedValue Long id;
+    @Id
+    @GeneratedValue
+    Long id;
 
     @Column(name = "email_address", nullable = false, unique = true, length = 100)
     private String email;
@@ -881,7 +895,8 @@ public class Customer {
 
 ```java
 // MySQL
-@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
 
 // PostgreSQL
@@ -891,7 +906,8 @@ private Long id;
 private Long id;
 
 // UUID
-@Id @GeneratedValue(strategy = GenerationType.UUID)
+@Id
+@GeneratedValue(strategy = GenerationType.UUID)
 private UUID id;
 ```
 
@@ -1065,9 +1081,11 @@ public interface AccountRepo extends JpaRepository<Account, Long> {
 5. Stateless REST: login endpoint returns a **JWT**; later requests send it and a `OncePerRequestFilter` (or `oauth2ResourceServer().jwt()`) validates it and fills the SecurityContext.
 
 ```java
-@Configuration @EnableMethodSecurity
+@Configuration
+@EnableMethodSecurity
 class SecurityConfig {
-    @Bean SecurityFilterChain api(HttpSecurity http) throws Exception {
+    @Bean
+    SecurityFilterChain api(HttpSecurity http) throws Exception {
         return http
             .csrf(c -> c.disable())                                   // stateless JWT API
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -1078,7 +1096,8 @@ class SecurityConfig {
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
     }
-    @Bean PasswordEncoder encoder() { return new BCryptPasswordEncoder(); }
+    @Bean
+    PasswordEncoder encoder() { return new BCryptPasswordEncoder(); }
 }
 
 @PreAuthorize("hasRole('ADMIN')")      // method-level authorization
